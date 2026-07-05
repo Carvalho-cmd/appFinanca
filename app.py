@@ -23,7 +23,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("Controle de Despesas")
+st.title("Finanças")
 
 #============================================================
 
