@@ -2,6 +2,7 @@ import streamlit as st
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
+import datetime
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ else:
 
 
 
-#============================================================
+#=================Configuracoes do App=======================
 
 st.set_page_config(
     page_title="Controle Financeiro",
@@ -25,13 +26,20 @@ st.set_page_config(
 
 st.title("Finanças")
 
-#============================================================
+#==================Busca dos dados na base===================
 
 dados = supabase.table("despesas").select("*").execute()
 
 
 
-#============================================================
+#==================Configuracao variaveis====================
+
+data_hoje = datetime.date.today()
+mes = data_hoje.strftime("%m")
+ano = data_hoje.strftime("%Y")
+
+
+#==================Botoes de cadastro========================
 
 
 with st.container(horizontal=True, horizontal_alignment="center", border=True):
@@ -42,9 +50,42 @@ with st.container(horizontal=True, horizontal_alignment="center", border=True):
     #st.write(cdt_ganho)
 
 
+@st.dialog("Cadastrar Nova Despesa")
+def popup_cadastro_despesa():
+    descricao = st.text_input("Descrição")
+    valor = st.number_input("Valor", min_value=0.0, format="%.2f")
+    categoria = st.selectbox("Categoria", ["Alimentação", "Parcelado", "Plano", "Carro", "Lazer", "Presente", "Outros"])
+    data_despesa = st.date_input("Data")
+    balanco = st.text_input("Balanço (MM/YYYY)", value=f'{mes}/{ano}')
+    cartao = st.selectbox("Cartão", ["Nubank", "Mercado Pago", "Santander", "XP", "Debito"])
+    parcela = st.text_input("Qtd. Parcelas", value="")
+
+    if st.button("Salvar", type="primary"):
+        if not descricao:
+            st.error("Por favor, preencha a descrição!")
+        else:
+            try:
+                nova_dp = {
+                        "descricao": descricao, "valor": valor, "categoria": categoria,
+                        "data_despesa": str(data_despesa), "balanco": balanco, 
+                        "cartao": cartao, "parcela": parcela
+                    }
+                supabase.table("despesas").insert(nova_dp).execute()
+                st.success("Cadastrado com sucesso!")
+                st.rerun()
+                
+            except Exception as e:
+                st.error(f"Erro ao salvar: {e}")
+
+
+if cdt_despesa:
+        popup_cadastro_despesa()
 
 
 
+
+
+#============================================================
 
 # Aba de Consulta e Aba de Cadastro
 aba_consultar, aba_cadastrar = st.tabs(["📊 Consultar", "➕ Cadastrar"])
