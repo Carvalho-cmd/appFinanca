@@ -48,8 +48,6 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
     else:
         int_qtd_parcelas = 1
 
-    print(int_qtd_parcelas)
-
     valor_parcelado = valor_despesa/int_qtd_parcelas
 
     for i in range(int_qtd_parcelas):
@@ -73,6 +71,7 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
         despesa['local'].append(local)
         despesa['responsavel'].append(responsavel)
         despesa['valor'].append(f'{valor_parcelado: .2f}')
+
         despesa['parcela'].append(f'{parcela_contador}/{int_qtd_parcelas}')
 
         df_despesa = pd.DataFrame(despesa)
