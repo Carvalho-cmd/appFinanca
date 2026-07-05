@@ -1,20 +1,9 @@
 import streamlit as st
-from supabase import create_client, Client
-from dotenv import load_dotenv
-import os
 import datetime
+import pandas as pd
 
-import cadastro
-
-load_dotenv()
-
-url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
-key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
-
-if not url or not key:
-    st.error("Chaves de configuração do Supabase não encontradas!")
-else:
-    supabase: Client = create_client(url, key)
+import src.utils as utils
+import src.database as base
 
 
 
@@ -30,8 +19,7 @@ st.title("Finanças")
 
 #==================Busca dos dados na base===================
 
-dados = supabase.table("despesas").select("*").execute()
-
+df_despesas = pd.DataFrame(base.import_tabela_despesas().data)
 
 
 #==================Configuracao variaveis====================
@@ -68,7 +56,7 @@ def popup_cadastro_despesa():
                 #supabase.table("despesas").insert(nova_dp).execute()
                 #st.success("Cadastrado com sucesso!")
                 #st.rerun()
-                cadastro.cadastro_despesa(descricao, valor, categoria, data_despesa, cartao, parcela, responsavel, local)
+                utils.cadastro_despesa(descricao, valor, categoria, data_despesa, cartao, parcela, responsavel, local)
                 st.success("Cadastrado com sucesso!")
 
             except Exception as e:
@@ -115,5 +103,5 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         st.caption("Meta de Poupança")
 
 
-
+st.write(df_despesas)
 
