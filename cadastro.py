@@ -40,7 +40,12 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
     ano = int(data_atual[0:4])
 
     valor_despesa = valor
-    int_qtd_parcelas = int(parcela)
+    
+    if parcela > 0:
+        int_qtd_parcelas = int(parcela)
+    else:
+        int_qtd_parcelas = int(parcela) + 1
+
     valor_parcelado = valor_despesa/int_qtd_parcelas
 
     for i in range(int_qtd_parcelas):
