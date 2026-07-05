@@ -15,11 +15,23 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("Finanças")
+with st.sidebar:
+    st.title("Finanças")
+    st.write("Versão 1.0")
+
+st.title("Cadastro ganhos e despesas")
 
 #==================Busca dos dados na base===================
 
 df_despesas = pd.DataFrame(base.import_tabela_despesas().data)
+
+
+balanco_disponiveis = df_despesas['balanco'].unique()
+balanco_selecionados = st.sidebar.multiselect(
+    "Selecione as Categorias:",
+    options=balanco_disponiveis,
+    default="08/2026" # Começa com todas selecionadas
+)
 
 
 #==================Configuracao variaveis====================
@@ -103,5 +115,13 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         st.caption("Meta de Poupança")
 
 
-st.write(df_despesas)
+
+#=============================================================
+
+
+df_despesas_filtradas = df_despesas[ 
+    df_despesas['balanco'].isin(balanco_selecionados)
+ ]
+
+st.write(df_despesas_filtradas)
 
