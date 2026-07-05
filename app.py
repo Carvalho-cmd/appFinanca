@@ -59,7 +59,7 @@ def popup_cadastro_despesa():
     categoria = st.selectbox("Categoria", ["Alimentação", "Parcelado", "Plano", "Carro", "Lazer", "Presente", "Outros"])
     data_despesa = st.date_input("Data")
     cartao = st.selectbox("Cartão", ["Nubank", "Mercado Pago", "Santander", "XP", "Debito"])
-    parcela = st.text_input("Qtd. Parcelas", value="")
+    parcela = st.text_input("Qtd. Parcelas", value="0")
     responsavel = st.text_input("Responsável", value="")
     local = st.text_input("Local", value="")
 
