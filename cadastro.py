@@ -1,0 +1,76 @@
+
+import pandas as pd
+import streamlit as st
+
+from supabase import create_client, Client
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
+key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
+
+supabase: Client = create_client(url,key)
+
+try:
+    despesas = supabase.table("despesas").select("*").execute()
+except Exception as e:
+    print(e)
+
+
+
+
+despesa = {
+    'descricao': [],
+    'balanco': [],
+    'categoria': [],
+    'data_despesa': [],
+    'cartao': [],
+    'local': [],
+    'responsavel': [],
+    'valor': [],
+    'parcela': []
+}
+
+
+def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, responsavel, local):
+    data_atual = str(data)
+    mes = int(data_atual[5:7])
+    ano = int(data_atual[0:4])
+
+    valor_despesa = valor
+    int_qtd_parcelas = int(parcela)
+    valor_parcelado = valor_despesa/int_qtd_parcelas
+
+    for i in range(int_qtd_parcelas):
+
+        parcela_contador = i + 1
+
+        if mes == 13:
+            mes = 1 
+            ano += 1
+
+        despesa['descricao'].append(descricao)
+
+        if mes < 10:
+            despesa['balanco'].append(f'0{mes}/{ano}')
+        else:
+            despesa['balanco'].append(f'{mes}/{ano}')
+
+        despesa['categoria'].append(categoria)
+        despesa['data_despesa'].append(str(data))
+        despesa['cartao'].append(cartao)
+        despesa['local'].append(local)
+        despesa['responsavel'].append(responsavel)
+        despesa['valor'].append(f'{valor_parcelado: .2f}')
+        despesa['parcela'].append(f'{parcela_contador}/{int_qtd_parcelas}')
+
+        df_despesa = pd.DataFrame(despesa)
+
+        mes += 1
+
+    print(df_despesa)
+    lista_para_envio = df_despesa.to_dict('records')
+
+    supabase.table("despesas").insert(lista_para_envio).execute()
