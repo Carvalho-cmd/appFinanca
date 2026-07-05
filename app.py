@@ -34,9 +34,14 @@ dados = supabase.table("despesas").select("*").execute()
 #============================================================
 
 
-with st.container(horizontal=True, horizontal_alignment="distribute"):
-    st.button("Cadastro Despesa")
-    st.button("Cadastro Ganho")
+with st.container(horizontal=True, horizontal_alignment="center", border=True):
+    cdt_despesa = st.button("Cadastro Despesa")
+    cdt_ganho = st.button("Cadastro Ganho")
+
+    #st.write(cdt_despesa)
+    #st.write(cdt_ganho)
+
+
 
 
 
