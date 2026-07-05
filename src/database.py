@@ -24,3 +24,6 @@ else:
 
 def import_tabela_despesas():
     return (supabase.table("despesas").select("*").execute())
+
+def inserir_tabela(tabela, df):
+    supabase.table(tabela).insert(df).execute()

@@ -2,19 +2,23 @@
 import pandas as pd
 import streamlit as st
 
-from supabase import create_client, Client
-from dotenv import load_dotenv
-import os
+# from supabase import create_client, Client
+# from dotenv import load_dotenv
+# import os
 
-load_dotenv()
+import src.database as base
 
-url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
-key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
+# load_dotenv()
 
-supabase: Client = create_client(url,key)
+# url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
+# key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
+
+# supabase: Client = create_client(url,key)
+
+
 
 try:
-    despesas = supabase.table("despesas").select("*").execute()
+    despesas = base.import_tabela_despesas #supabase.table("despesas").select("*").execute()
 except Exception as e:
     print(e)
 
@@ -81,4 +85,5 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
     #print(df_despesa)
     lista_para_envio = df_despesa.to_dict('records')
 
-    supabase.table("despesas").insert(lista_para_envio).execute()
+    base.inserir_tabela(despesa, lista_para_envio)
+    # supabase.table("despesas").insert(lista_para_envio).execute()
