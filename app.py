@@ -16,7 +16,7 @@ else:
 
 
 st.set_page_config(
-    page_title="Streamlit ECharts Demo",
+    page_title="Controle Financeiro",
     page_icon=":chart_with_upwards_trend:",
     layout="wide",
 )
