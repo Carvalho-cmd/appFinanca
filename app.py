@@ -5,10 +5,13 @@ import os
 
 load_dotenv()
 
-url = os.getenv("supabase_url")
-key = os.getenv("supabase_key")
+url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
+key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
 
-supabase: Client = create_client(url,key)
+if not url or not key:
+    st.error("Chaves de configuração do Supabase não encontradas!")
+else:
+    supabase: Client = create_client(url, key)
 
 
 st.title("📱 Controle de Despesas")
