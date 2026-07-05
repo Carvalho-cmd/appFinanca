@@ -14,6 +14,14 @@ else:
     supabase: Client = create_client(url, key)
 
 
+
+st.set_page_config(
+    page_title="Streamlit ECharts Demo",
+    page_icon=":chart_with_upwards_trend:",
+    layout="wide",
+)
+
+
 st.title("📱 Controle de Despesas")
 
 # Aba de Consulta e Aba de Cadastro
