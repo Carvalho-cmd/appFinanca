@@ -40,11 +40,17 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
     ano = int(data_atual[0:4])
 
     valor_despesa = valor
-    
+
+    print(parcela)
+    parcela = int(parcela)
+    print(type(parcela))
+
     if parcela > 0:
         int_qtd_parcelas = int(parcela)
     else:
-        int_qtd_parcelas = int(parcela) + 1
+        int_qtd_parcelas = 1
+
+    print(int_qtd_parcelas)
 
     valor_parcelado = valor_despesa/int_qtd_parcelas
 
@@ -75,7 +81,7 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
 
         mes += 1
 
-    print(df_despesa)
+    #print(df_despesa)
     lista_para_envio = df_despesa.to_dict('records')
 
     supabase.table("despesas").insert(lista_para_envio).execute()
