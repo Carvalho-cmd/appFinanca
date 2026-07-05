@@ -44,14 +44,6 @@ ano = data_hoje.strftime("%Y")
 #==================Botoes de cadastro========================
 
 
-with st.container(horizontal=True, horizontal_alignment="center", border=True):
-    cdt_despesa = st.button("Cadastro Despesa")
-    cdt_ganho = st.button("Cadastro Ganho")
-
-    #st.write(cdt_despesa)
-    #st.write(cdt_ganho)
-
-
 @st.dialog("Cadastrar Nova Despesa")
 def popup_cadastro_despesa():
     descricao = st.text_input("Descrição")
@@ -83,6 +75,14 @@ def popup_cadastro_despesa():
                 st.error(f"Erro ao salvar: {e}")
 
 
+with st.container(horizontal=True, horizontal_alignment="center", border=True):
+    cdt_despesa = st.button("Cadastro Despesa")
+    cdt_ganho = st.button("Cadastro Ganho")
+
+    #st.write(cdt_despesa)
+    #st.write(cdt_ganho)
+
+
 if cdt_despesa:
         popup_cadastro_despesa()
 
@@ -92,31 +92,28 @@ if cdt_despesa:
 
 #============================================================
 
-# Aba de Consulta e Aba de Cadastro
-aba_consultar, aba_cadastrar = st.tabs(["📊 Consultar", "➕ Cadastrar"])
+st.markdown("### Indicadores do mês")
 
-with aba_consultar:
-    st.subheader("Suas Despesas")
-    st.dataframe(dados.data)
+with st.container(horizontal=True, horizontal_alignment="center"):
 
-with aba_cadastrar:
-    st.subheader("Nova Despesa")
-    with st.form("form_despesa"):
-        descricao = st.text_input("Descrição")
-        valor = st.number_input("Valor", min_value=0.0, format="%.2f")
-        categoria = st.selectbox("Categoria", ["Alimentação", "Transporte", "Lazer", "Outros"])
-        data_despesa = st.date_input("Data")
-        balanco = st.text_input("Balanço (MM/YYYY)", value="07/2026")
-        cartao = st.text_input("Cartão")
-        parcela = st.text_input("Parcela", value="1/1")
-        
-        enviado = st.form_submit_button("Salvar no Supabase")
-        
-        if enviado:
-            nova_dp = {
-                "descricao": descricao, "valor": valor, "categoria": categoria,
-                "data_despesa": str(data_despesa), "balanco": balanco, 
-                "cartao": cartao, "parcela": parcela
-            }
-            supabase.table("despesas").insert(nova_dp).execute()
-            st.success("Cadastrado com sucesso!")
+    total_deslpesa_variavel, total_deslpesa_fixa, total_ganho, total_sobra = st.columns(4)
+
+    with total_deslpesa_variavel:
+        st.metric(label="Despesas variáveis", value="R$ 1.000,00")
+        st.caption("Cartão de Crédito")
+    
+    with total_deslpesa_fixa:
+        st.metric(label="Despesas fixas", value="R$ 1.250,00")
+        st.caption("Dívidas fixas")
+
+    with total_ganho:
+        st.metric(label="Total Ganho", value="R$ 2.000,00")
+        st.caption("PIX / Débito")
+
+    with total_sobra:
+        st.metric(label="Sobra", value="R$ 300,00")
+        st.caption("Meta de Poupança")
+
+
+
+
