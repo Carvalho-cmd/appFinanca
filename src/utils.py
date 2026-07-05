@@ -1,21 +1,7 @@
 
 import pandas as pd
 import streamlit as st
-
-# from supabase import create_client, Client
-# from dotenv import load_dotenv
-# import os
-
 import src.database as base
-
-# load_dotenv()
-
-# url = os.getenv("supabase_url") or st.secrets.get("supabase_url")
-# key = os.getenv("supabase_key") or st.secrets.get("supabase_key")
-
-# supabase: Client = create_client(url,key)
-
-
 
 try:
     despesas = base.import_tabela_despesas #supabase.table("despesas").select("*").execute()
@@ -86,4 +72,3 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
     lista_para_envio = df_despesa.to_dict('records')
 
     base.inserir_tabela(despesa, lista_para_envio)
-    # supabase.table("despesas").insert(lista_para_envio).execute()
