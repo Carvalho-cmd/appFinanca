@@ -28,7 +28,7 @@ df_despesas = pd.DataFrame(base.import_tabela_despesas().data)
 
 balanco_disponiveis = df_despesas['balanco'].unique()
 balanco_selecionados = st.sidebar.multiselect(
-    "Selecione as Categorias:",
+    "Selecione o mês:",
     options=balanco_disponiveis,
     default="08/2026" # Começa com todas selecionadas
 )
