@@ -41,9 +41,7 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
 
     valor_despesa = valor
 
-    print(parcela)
     parcela = int(parcela)
-    print(type(parcela))
 
     if parcela > 0:
         int_qtd_parcelas = int(parcela)
