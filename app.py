@@ -15,21 +15,37 @@ else:
 
 
 
+#============================================================
+
 st.set_page_config(
     page_title="Controle Financeiro",
     page_icon=":chart_with_upwards_trend:",
     layout="wide",
 )
 
+st.title("Controle de Despesas")
 
-st.title("📱 Controle de Despesas")
+#============================================================
+
+dados = supabase.table("despesas").select("*").execute()
+
+
+
+#============================================================
+
+
+with st.container(horizontal=True, horizontal_alignment="distribute"):
+    st.button("Cadastro Despesa")
+    st.button("Cadastro Ganho")
+
+
+
 
 # Aba de Consulta e Aba de Cadastro
 aba_consultar, aba_cadastrar = st.tabs(["📊 Consultar", "➕ Cadastrar"])
 
 with aba_consultar:
     st.subheader("Suas Despesas")
-    dados = supabase.table("despesas").select("*").execute()
     st.dataframe(dados.data)
 
 with aba_cadastrar:
