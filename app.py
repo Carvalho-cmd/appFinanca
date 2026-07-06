@@ -28,10 +28,10 @@ df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
 
 
 balanco_disponiveis = df_despesas['balanco'].unique()
-balanco_selecionados = st.sidebar.multiselect(
+balanco_selecionado = st.sidebar.selectbox(
     "Selecione o mês:",
     options=balanco_disponiveis,
-    default="07/2026" # Começa com todas selecionadas
+    #default="07/2026" # Começa com todas selecionadas
 )
 
 
@@ -110,11 +110,12 @@ if cdt_receita:
 
 
 
+
 #============================================================
 
 st.markdown("### Indicadores do mês")
 
-indicadores = metricas.indicadores_total_mes(f"{mes}/{ano}")
+indicadores = metricas.indicadores_total_mes(balanco_selecionado)
 
 var_despesa_variavel = indicadores["total_despesa_variavel"]
 var_despesa_fixa = indicadores["total_despesa_fixa"]
@@ -146,9 +147,7 @@ with st.container(horizontal=True, horizontal_alignment="center"):
 #=============================================================
 
 
-df_despesas_filtradas = df_despesas[ 
-    df_despesas['balanco'].isin(balanco_selecionados)
- ]
+df_despesas_filtradas = df_filtrado = df_despesas[df_despesas['balanco'] == balanco_selecionado]
 
 st.write(df_despesas_filtradas)
 
