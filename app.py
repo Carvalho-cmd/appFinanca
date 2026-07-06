@@ -4,6 +4,7 @@ import pandas as pd
 
 import src.utils as utils
 import src.database as base
+import src.metricas as metricas
 
 
 
@@ -23,14 +24,14 @@ st.title("Cadastro ganhos e despesas")
 
 #==================Busca dos dados na base===================
 
-df_despesas = pd.DataFrame(base.import_tabela_despesas().data)
+df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
 
 
 balanco_disponiveis = df_despesas['balanco'].unique()
 balanco_selecionados = st.sidebar.multiselect(
     "Selecione o mês:",
     options=balanco_disponiveis,
-    default="08/2026" # Começa com todas selecionadas
+    default="07/2026" # Começa com todas selecionadas
 )
 
 
@@ -72,7 +73,7 @@ def popup_cadastro_despesa():
 @st.dialog("Cadastrar Nova Receita")
 def popup_cadastro_receita():
     descricao = st.text_input("Descrição")
-    balanco = st.text_input("balanco", value = "07/2026")
+    balanco = st.text_input("balanco", value = f"{mes}/{ano}")
     valor = st.number_input("Valor", min_value=0.0, format="%.2f")
     data_receita = st.date_input("Data Receita")
     categoria = st.selectbox("Categoria", ["Salario", "PIX", "PPR", "Decimo", "Ferias"]) 
@@ -113,24 +114,31 @@ if cdt_receita:
 
 st.markdown("### Indicadores do mês")
 
+indicadores = metricas.indicadores_total_mes(f"{mes}/{ano}")
+
+var_despesa_variavel = indicadores["total_despesa_variavel"]
+var_despesa_fixa = indicadores["total_despesa_fixa"]
+var_ganho = indicadores["total_ganho"]
+var_sobra = indicadores["tota_sobra"]
+
 with st.container(horizontal=True, horizontal_alignment="center"):
 
     total_deslpesa_variavel, total_deslpesa_fixa, total_ganho, total_sobra = st.columns(4)
 
     with total_deslpesa_variavel:
-        st.metric(label="Despesas variáveis", value="R$ 1.000,00")
+        st.metric(label="Despesas variáveis", value=f"{var_despesa_variavel} R$")
         st.caption("Cartão de Crédito")
     
     with total_deslpesa_fixa:
-        st.metric(label="Despesas fixas", value="R$ 1.250,00")
+        st.metric(label="Despesas fixas", value=f"{var_despesa_fixa} R$")
         st.caption("Dívidas fixas")
 
     with total_ganho:
-        st.metric(label="Total Ganho", value="R$ 2.000,00")
+        st.metric(label="Total Ganho", value=f"{var_ganho} R$")
         st.caption("PIX / Débito")
 
     with total_sobra:
-        st.metric(label="Sobra", value="R$ 300,00")
+        st.metric(label="Sobra", value=f"{var_sobra} R$")
         st.caption("Meta de Poupança")
 
 
