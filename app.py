@@ -20,7 +20,7 @@ with st.sidebar:
     st.title("Finanças")
     st.write("Versão 1.0")
 
-st.title("Cadastro ganhos e despesas")
+st.title("Finanças")
 
 #==================Busca dos dados na base===================
 
