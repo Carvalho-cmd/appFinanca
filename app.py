@@ -126,19 +126,19 @@ with st.container(horizontal=True, horizontal_alignment="center"):
     total_deslpesa_variavel, total_deslpesa_fixa, total_ganho, total_sobra = st.columns(4)
 
     with total_deslpesa_variavel:
-        st.metric(label="Despesas variáveis", value=f"{var_despesa_variavel} R$")
+        st.metric(label="Despesas variáveis", value=utils.format_brl(var_despesa_variavel))
         st.caption("Cartão de Crédito")
     
     with total_deslpesa_fixa:
-        st.metric(label="Despesas fixas", value=f"{var_despesa_fixa} R$")
+        st.metric(label="Despesas fixas", value=utils.format_brl(var_despesa_fixa))
         st.caption("Dívidas fixas")
 
     with total_ganho:
-        st.metric(label="Total Ganho", value=f"{var_ganho} R$")
+        st.metric(label="Total Ganho", value=utils.format_brl(var_ganho))
         st.caption("PIX / Débito")
 
     with total_sobra:
-        st.metric(label="Sobra", value=f"{var_sobra} R$")
+        st.metric(label="Sobra", value=utils.format_brl(var_sobra))
         st.caption("Meta de Poupança")
 
 

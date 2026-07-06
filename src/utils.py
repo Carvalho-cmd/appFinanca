@@ -106,5 +106,17 @@ def cadastro_receita(descricao, balanco, categoria, data_receita, valor):
 
 
 
+def format_brl(valor):
+    try:
+        # Garante que o valor é um número float
+        valor = float(valor)
+        # Formata inicialmente no padrão americano com duas casas decimais: 1250000.32 -> "1,250,000.32"
+        fmt = f"{valor:,.2f}"
+        # Inverte os separadores para o padrão BR: "1.250.000,32"
+        fmt_br = fmt.replace(",", "X").replace(".", ",").replace("X", ".")
+        return f"R$ {fmt_br}"
+    except (ValueError, TypeError):
+        return "R$ 0,00"
+
 
        
