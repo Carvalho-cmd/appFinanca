@@ -78,34 +78,28 @@ def cadastro_despesa(descricao, valor, categoria, data, cartao, parcela, respons
 
 def cadastro_despesa_fixa(descricao, valor, categoria, cartao):
 
-    despesa_fixa = {
-        'descricao': descricao,
-        'categoria': categoria,
-        'cartao': cartao,
-        'valor': valor
-    }
-
-    df_despesa_fixa = pd.DataFrame(despesa_fixa)
-
-    novo_registro_despesa_fixa = df_despesa_fixa.to_dict('records')
+    novo_registro_despesa_fixa = [{
+    'descricao': descricao,
+    'valor': valor,
+    'categoria': categoria,
+    'cartao': cartao, # Garante que a data vire string se necessário
+    }]
 
     base.inserir_tabela('tb_despesas_fixa', novo_registro_despesa_fixa)
 
 
 
+
+
 def cadastro_receita(descricao, balanco, categoria, data_receita, valor):
 
-    receita = {
+    novo_registro_receita = [{
         'descricao': descricao,
         'balanco': balanco,
         'categoria': categoria,
-        'data_receita': data_receita,
+        'data_receita': str(data_receita), # Garante que a data vire string se necessário
         'valor': valor
-    }
-
-    df_receita = pd.DataFrame(receita)
-
-    novo_registro_receita = df_receita.to_dict('records')
+    }]
 
     base.inserir_tabela('tb_receita', novo_registro_receita)
 

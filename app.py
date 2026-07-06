@@ -60,14 +60,6 @@ def popup_cadastro_despesa():
             st.error("Por favor, preencha a descrição!")
         else:
             try:
-                #nova_dp = {
-                #        "descricao": descricao, "valor": valor, "categoria": categoria,
-                #        "data_despesa": str(data_despesa), "balanco": balanco, 
-                #        "cartao": cartao, "parcela": parcela
-                #    }
-                #supabase.table("despesas").insert(nova_dp).execute()
-                #st.success("Cadastrado com sucesso!")
-                #st.rerun()
                 utils.cadastro_despesa(descricao, valor, categoria, data_despesa, cartao, parcela, responsavel, local)
                 st.success("Cadastrado com sucesso!")
 
@@ -75,16 +67,43 @@ def popup_cadastro_despesa():
                 st.error(f"Erro ao salvar: {e}")
 
 
+
+
+@st.dialog("Cadastrar Nova Receita")
+def popup_cadastro_receita():
+    descricao = st.text_input("Descrição")
+    balanco = st.text_input("balanco", value = "07/2026")
+    valor = st.number_input("Valor", min_value=0.0, format="%.2f")
+    data_receita = st.date_input("Data Receita")
+    categoria = st.selectbox("Categoria", ["Salario", "PIX", "PPR", "Decimo", "Ferias"]) 
+
+
+    if st.button("Salvar", type="primary"):
+        if not descricao:
+            st.error("Por favor, preencha a descrição!")
+        else:
+            try:
+                utils.cadastro_receita(descricao, balanco, categoria, data_receita, valor)
+                st.success("Cadastrado com sucesso!")
+
+            except Exception as e:
+                st.error(f"Erro ao salvar: {e}")
+
+
+
 with st.container(horizontal=True, horizontal_alignment="center", border=True):
     cdt_despesa = st.button("Cadastro Despesa")
-    cdt_ganho = st.button("Cadastro Ganho")
+    cdt_receita = st.button("Cadastro Ganho")
 
     #st.write(cdt_despesa)
     #st.write(cdt_ganho)
 
 
 if cdt_despesa:
-        popup_cadastro_despesa()
+    popup_cadastro_despesa()
+
+if cdt_receita:
+    popup_cadastro_receita()
 
 
 
