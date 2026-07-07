@@ -145,20 +145,31 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         st.caption("Meta de Poupança")
 
 
+st.divider()
 
-#=============================================================
 
+#=============================================================        
 
 with st.container(horizontal=True, horizontal_alignment="center"):
 
-    df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria(balanco_selecionado))
-    # st.write(df_despesas_categoria)
-    grafico = px.bar(df_despesas_categoria, x='categoria', y='valor', color='categoria', title='Despesas por categorias')
+    cartao, categoria = st.columns(2)
 
-    st.plotly_chart(grafico, use_container_width=True)
+    with cartao:
+        st.markdown("##### Despesas por cartão")
+        df_despesas_cartao = pd.DataFrame(metricas.import_despesas_por_cartao(balanco_selecionado))
+        st.bar_chart(df_despesas_cartao, x='cartao', y='valor', x_label = '', y_label = '', color='cartao', width = 500)   
+    
+    with categoria:
+        st.markdown("##### Despesas por categoria")
+        df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria(balanco_selecionado))
+        st.bar_chart(df_despesas_categoria, x='categoria', y='valor', x_label = '', y_label = '', color='categoria', width = 500)  
 
 
-st.bar_chart(df_despesas_categoria, x='categoria', y='valor', x_label = '', y_label = '', color='categoria', width = 500)    
+    # grafico = px.bar(df_despesas_categoria, x='categoria', y='valor', color='categoria', title='Despesas por categorias')
+    # st.plotly_chart(grafico, use_container_width=True)
+
+
+
 
 # df_despesas_filtradas = df_despesas[df_despesas['balanco'] == balanco_selecionado]
 
