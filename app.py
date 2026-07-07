@@ -151,7 +151,7 @@ with st.container(horizontal=True, horizontal_alignment="center"):
 
 with st.container(horizontal=True, horizontal_alignment="center"):
 
-    df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria())
+    df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria(balanco_selecionado))
     # st.write(df_despesas_categoria)
     grafico = px.bar(df_despesas_categoria, x='categoria', y='valor', color='categoria', title='Despesas por categorias')
 

@@ -60,12 +60,12 @@ def import_balanco_atual():
 
 
 
-def import_despesas_por_categoria():
+def import_despesas_por_categoria(balanco):
 
     df_despesas = import_despesas()
-    balanco_atual = import_balanco_atual()
+    balanco_atual = balanco
 
-    df_despesas_atuais = df_despesas[df_despesas['balanco'] == balanco_atual]
+    df_despesas_atuais = df_despesas[df_despesas['balanco'] == balanco]
 
     df_despesas_por_categoria = df_despesas_atuais[['categoria', 'valor']].groupby('categoria').sum().reset_index()
 
