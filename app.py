@@ -28,13 +28,14 @@ st.title("Finanças")
 #==================Busca dos dados na base===================
 
 df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
-
+# balanco = metricas.import_balanco_atual()
+# print(balanco)
 
 balanco_disponiveis = df_despesas['balanco'].unique()
 balanco_selecionado = st.sidebar.selectbox(
     "Selecione o mês:",
     options=balanco_disponiveis,
-    #default="07/2026" # Começa com todas selecionadas
+    #default= balanco # Começa com todas selecionadas
 )
 
 
@@ -159,7 +160,7 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         st.markdown("##### Despesas por categoria")
         df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria(balanco_selecionado))
         grafico = px.pie(df_despesas_categoria, values='valor', names='categoria')
-        st.plotly_chart(grafico, use_container_width=True)
+        st.plotly_chart(grafico)
 
     
     with cartao:
@@ -168,7 +169,7 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         df_despesas_cartao = pd.DataFrame(metricas.import_despesas_por_cartao(balanco_selecionado))
         # st.bar_chart(df_despesas_cartao, x='cartao', y='valor', x_label = '', y_label = '', color='cartao', width = 500)  
         grafico = px.bar(df_despesas_cartao, x='cartao', y='valor', color='cartao', text_auto='.2s')
-        st.plotly_chart(grafico, use_container_width=True)
+        st.plotly_chart(grafico)
 
 
 
@@ -179,7 +180,7 @@ with st.container(horizontal=True, horizontal_alignment="center"):
     
     df_linha_do_tempo = df_despesas[['balanco','valor']].groupby('balanco').sum().reset_index()
     fig = px.line(df_linha_do_tempo, x='balanco', y="valor")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig)
 
 # df_despesas_filtradas = df_despesas[df_despesas['balanco'] == balanco_selecionado]
 
