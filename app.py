@@ -7,6 +7,7 @@ import src.database as base
 import src.metricas as metricas
 
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 
@@ -166,15 +167,19 @@ with st.container(horizontal=True, horizontal_alignment="center"):
         
         df_despesas_cartao = pd.DataFrame(metricas.import_despesas_por_cartao(balanco_selecionado))
         # st.bar_chart(df_despesas_cartao, x='cartao', y='valor', x_label = '', y_label = '', color='cartao', width = 500)  
-        grafico = px.bar(df_despesas_cartao, x='cartao', y='valor', color='cartao')
+        grafico = px.bar(df_despesas_cartao, x='cartao', y='valor', color='cartao', text_auto='.2s')
         st.plotly_chart(grafico, use_container_width=True)
-
-
 
 
 
 st.divider()
 
+st.markdown("##### Linha do tempo das despesas")
+with st.container(horizontal=True, horizontal_alignment="center"):
+    
+    df_linha_do_tempo = df_despesas[['balanco','valor']].groupby('balanco').sum().reset_index()
+    fig = px.line(df_linha_do_tempo, x='balanco', y="valor")
+    st.plotly_chart(fig, use_container_width=True)
 
 # df_despesas_filtradas = df_despesas[df_despesas['balanco'] == balanco_selecionado]
 
