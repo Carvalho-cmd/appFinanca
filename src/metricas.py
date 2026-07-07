@@ -1,5 +1,7 @@
 import pandas as pd
 import src.database as base
+import datetime
+
 ###
 
 df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
@@ -41,4 +43,31 @@ def indicadores_total_mes(balanco):
     }
 
     return resultado
+
+
+def import_despesas():
+
+    df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
+    return df_despesas
+
+def import_balanco_atual():
+
+    data_hoje = datetime.date.today()
+    mes = data_hoje.strftime("%m")
+    ano = data_hoje.strftime("%Y")
+    balanco = f'{mes}/{ano}'
+    return balanco
+
+
+
+def import_despesas_por_categoria():
+
+    df_despesas = import_despesas()
+    balanco_atual = import_balanco_atual()
+
+    df_despesas_atuais = df_despesas[df_despesas['balanco'] == balanco_atual]
+
+    df_despesas_por_categoria = df_despesas_atuais[['categoria', 'valor']].groupby('categoria').sum().reset_index()
+
+    return df_despesas_por_categoria
 

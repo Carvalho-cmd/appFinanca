@@ -4,7 +4,7 @@ import streamlit as st
 import src.database as base
 
 try:
-    despesas = base.import_tabela_despesas #supabase.table("despesas").select("*").execute()
+    despesas = base.import_tabela('tb_despesas') #supabase.table("despesas").select("*").execute()
 except Exception as e:
     print(e)
 
@@ -117,6 +117,3 @@ def format_brl(valor):
         return f"R$ {fmt_br}"
     except (ValueError, TypeError):
         return "R$ 0,00"
-
-
-       

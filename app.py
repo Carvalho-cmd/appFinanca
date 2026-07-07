@@ -6,6 +6,8 @@ import src.utils as utils
 import src.database as base
 import src.metricas as metricas
 
+import plotly.express as px
+
 
 
 #=================Configuracoes do App=======================
@@ -147,7 +149,18 @@ with st.container(horizontal=True, horizontal_alignment="center"):
 #=============================================================
 
 
-df_despesas_filtradas = df_filtrado = df_despesas[df_despesas['balanco'] == balanco_selecionado]
+with st.container(horizontal=True, horizontal_alignment="center"):
 
-st.write(df_despesas_filtradas)
+    df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria())
+    # st.write(df_despesas_categoria)
+    grafico = px.bar(df_despesas_categoria, x='categoria', y='valor', color='categoria', title='Despesas por categorias')
+
+    st.plotly_chart(grafico, use_container_width=True)
+
+
+st.bar_chart(df_despesas_categoria, x='categoria', y='valor', x_label = '', y_label = '', color='categoria', width = 500)    
+
+# df_despesas_filtradas = df_despesas[df_despesas['balanco'] == balanco_selecionado]
+
+# st.write(df_despesas_filtradas)
 
