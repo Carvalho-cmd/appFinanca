@@ -152,23 +152,28 @@ st.divider()
 
 with st.container(horizontal=True, horizontal_alignment="center"):
 
-    cartao, categoria = st.columns(2)
+    categoria, cartao = st.columns(2)
 
-    with cartao:
-        st.markdown("##### Despesas por cartão")
-        df_despesas_cartao = pd.DataFrame(metricas.import_despesas_por_cartao(balanco_selecionado))
-        st.bar_chart(df_despesas_cartao, x='cartao', y='valor', x_label = '', y_label = '', color='cartao', width = 500)   
-    
     with categoria:
         st.markdown("##### Despesas por categoria")
         df_despesas_categoria = pd.DataFrame(metricas.import_despesas_por_categoria(balanco_selecionado))
-        st.bar_chart(df_despesas_categoria, x='categoria', y='valor', x_label = '', y_label = '', color='categoria', width = 500)  
+        grafico = px.pie(df_despesas_categoria, values='valor', names='categoria')
+        st.plotly_chart(grafico, use_container_width=True)
+
+    
+    with cartao:
+        st.markdown("##### Despesas por cartao")
+        
+        df_despesas_cartao = pd.DataFrame(metricas.import_despesas_por_cartao(balanco_selecionado))
+        # st.bar_chart(df_despesas_cartao, x='cartao', y='valor', x_label = '', y_label = '', color='cartao', width = 500)  
+        grafico = px.bar(df_despesas_cartao, x='cartao', y='valor', color='cartao')
+        st.plotly_chart(grafico, use_container_width=True)
 
 
-    # grafico = px.bar(df_despesas_categoria, x='categoria', y='valor', color='categoria', title='Despesas por categorias')
-    # st.plotly_chart(grafico, use_container_width=True)
 
 
+
+st.divider()
 
 
 # df_despesas_filtradas = df_despesas[df_despesas['balanco'] == balanco_selecionado]
