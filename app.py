@@ -36,7 +36,7 @@ balanco_selecionado = st.sidebar.selectbox(
     "Selecione o mês:",
     options=balanco_disponiveis,
     #default= balanco # Começa com todas selecionadas
-    default= "07/2026"
+    #default= "07/2026"
 )
 
 
