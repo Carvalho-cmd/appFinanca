@@ -2,7 +2,7 @@ import pandas as pd
 import src.database as base
 import datetime
 
-#####
+##
 
 df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
 df_despesas_fixas = pd.DataFrame(base.import_tabela("tb_despesas_fixas").data)
