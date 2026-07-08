@@ -28,7 +28,7 @@ st.title("Finanças")
 #==================Busca dos dados na base===================
 
 df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
-# balanco = metricas.import_balanco_atual()
+balanco = metricas.import_balanco_atual()
 # print(balanco)
 
 balanco_disponiveis = df_despesas['balanco'].unique()
@@ -36,7 +36,7 @@ balanco_selecionado = st.sidebar.selectbox(
     "Selecione o mês:",
     options=balanco_disponiveis,
     #default= balanco # Começa com todas selecionadas
-    #default= "07/2026"
+    #default= "07/2026" # não funciona no selectbox. Só no multiselect
 )
 
 
