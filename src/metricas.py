@@ -4,10 +4,11 @@ import datetime
 
 ####
 
-df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
-df_despesas_fixas = pd.DataFrame(base.import_tabela("tb_despesas_fixas").data)
-df_receita = pd.DataFrame(base.import_tabela("tb_receita").data)
-
+def carregar_dados_atualizados():
+    df_despesas = pd.DataFrame(base.import_tabela("tb_despesas").data)
+    df_despesas_fixas = pd.DataFrame(base.import_tabela("tb_despesas_fixas").data)
+    df_receita = pd.DataFrame(base.import_tabela("tb_receita").data)
+    return df_despesas, df_despesas_fixas, df_receita
 
 
 def total_gasto_anual():
@@ -20,6 +21,8 @@ def despesas_por_cartao_mes(balanco):
     print("")
 
 def indicadores_total_mes(balanco):
+
+    df_despesas, df_despesas_fixas, df_receita = carregar_dados_atualizados()
     
     #total despesa variaveis
     df_depesa_variavel_atual = df_despesas[df_despesas["balanco"] == balanco]
@@ -62,7 +65,7 @@ def import_balanco_atual():
 
 def import_despesas_por_categoria(balanco):
 
-    df_despesas = import_despesas()
+    df_despesas, _, _ = carregar_dados_atualizados()
 
     df_despesas_atuais = df_despesas[df_despesas['balanco'] == balanco]
 
@@ -73,7 +76,7 @@ def import_despesas_por_categoria(balanco):
 
 def import_despesas_por_cartao(balanco):
 
-    df_despesas = import_despesas()
+    df_despesas, _, _ = carregar_dados_atualizados()
 
     df_despesas_atuais = df_despesas[df_despesas['balanco'] == balanco]
 

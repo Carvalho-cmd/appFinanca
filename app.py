@@ -67,7 +67,13 @@ def popup_cadastro_despesa():
         else:
             try:
                 utils.cadastro_despesa(descricao, valor, categoria, data_despesa, cartao, parcela, responsavel, local)
+                st.cache_data.clear()
                 st.success("Cadastrado com sucesso!")
+
+                import time
+                time.sleep(1) 
+                
+                st.rerun() 
 
             except Exception as e:
                 st.error(f"Erro ao salvar: {e}")
@@ -127,14 +133,14 @@ if cdt_receita:
 
 st.markdown("### Indicadores do mês")
 
-indicadores = metricas.indicadores_total_mes(balanco_selecionado)
-
-var_despesa_variavel = indicadores["total_despesa_variavel"]
-var_despesa_fixa = indicadores["total_despesa_fixa"]
-var_ganho = indicadores["total_ganho"]
-var_sobra = indicadores["total_sobra"]
-
 with st.container(horizontal=True, horizontal_alignment="center"):
+
+    indicadores = metricas.indicadores_total_mes(balanco_selecionado)
+
+    var_despesa_variavel = indicadores["total_despesa_variavel"]
+    var_despesa_fixa = indicadores["total_despesa_fixa"]
+    var_ganho = indicadores["total_ganho"]
+    var_sobra = indicadores["total_sobra"]
 
     total_despesa_variavel, total_despesa_fixa, total_ganho, total_sobra = st.columns(4)
 
