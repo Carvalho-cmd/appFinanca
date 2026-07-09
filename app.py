@@ -90,10 +90,17 @@ def popup_cadastro_receita():
         else:
             try:
                 utils.cadastro_receita(descricao, balanco, categoria, data_receita, valor)
+                st.cache_data.clear()
                 st.success("Cadastrado com sucesso!")
+
+                import time
+                time.sleep(1) 
+                
+                st.rerun() 
 
             except Exception as e:
                 st.error(f"Erro ao salvar: {e}")
+
 
 
 
@@ -125,17 +132,17 @@ indicadores = metricas.indicadores_total_mes(balanco_selecionado)
 var_despesa_variavel = indicadores["total_despesa_variavel"]
 var_despesa_fixa = indicadores["total_despesa_fixa"]
 var_ganho = indicadores["total_ganho"]
-var_sobra = indicadores["tota_sobra"]
+var_sobra = indicadores["total_sobra"]
 
 with st.container(horizontal=True, horizontal_alignment="center"):
 
-    total_deslpesa_variavel, total_deslpesa_fixa, total_ganho, total_sobra = st.columns(4)
+    total_despesa_variavel, total_despesa_fixa, total_ganho, total_sobra = st.columns(4)
 
-    with total_deslpesa_variavel:
+    with total_despesa_variavel:
         st.metric(label="Despesas variáveis", value=utils.format_brl(var_despesa_variavel))
         st.caption("Cartão de Crédito")
     
-    with total_deslpesa_fixa:
+    with total_despesa_fixa:
         st.metric(label="Despesas fixas", value=utils.format_brl(var_despesa_fixa))
         st.caption("Dívidas fixas")
 

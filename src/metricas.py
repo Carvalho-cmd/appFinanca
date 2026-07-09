@@ -33,13 +33,13 @@ def indicadores_total_mes(balanco):
     total_ganho = float(df_ganho_atual["valor"].sum())
 
     #Sobra
-    tota_sobra = 3000 - (total_despesa_variavel + total_despesa_fixa)
+    total_sobra = 3000 - (total_despesa_variavel + total_despesa_fixa)
 
     resultado = {
         "total_despesa_variavel": total_despesa_variavel,
         "total_despesa_fixa": total_despesa_fixa,
         "total_ganho": 3000,
-        "tota_sobra": tota_sobra
+        "total_sobra": total_sobra
     }
 
     return resultado

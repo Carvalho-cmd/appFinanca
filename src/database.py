@@ -23,6 +23,7 @@ else:
 
 
 #======Select
+@st.cache_data
 def import_tabela(tabela):
     return (supabase.table(tabela).select("*").execute())
 

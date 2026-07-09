@@ -2,6 +2,7 @@
 import pandas as pd
 import streamlit as st
 import src.database as base
+import src.metricas as metricas
 
 try:
     despesas = base.import_tabela('tb_despesas') #supabase.table("despesas").select("*").execute()
@@ -117,3 +118,4 @@ def format_brl(valor):
         return f"R$ {fmt_br}"
     except (ValueError, TypeError):
         return "R$ 0,00"
+    
